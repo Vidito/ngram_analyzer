@@ -17,7 +17,7 @@ def extract_ngrams(text, n):
     ngrams_list = ngrams(tokens, n)
 
     # Filter out unwanted characters
-    unwanted_chars = string.punctuation
+    unwanted_chars = string.punctuation + "”“’"
     filtered_ngrams = [ngram for ngram in ngrams_list if all(token not in unwanted_chars for token in ngram)]
 
     return list(filtered_ngrams)
