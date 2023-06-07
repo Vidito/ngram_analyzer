@@ -11,15 +11,13 @@ st.set_page_config(
 )
 nltk.download('punkt')
 
-nltk.data.path.append("./nltk_data")
-
 # Function to extract n-grams from a text
 def extract_ngrams(text, n):
     tokens = word_tokenize(text)
     ngrams_list = ngrams(tokens, n)
 
     # Filter out unwanted characters
-    unwanted_chars = string.punctuation + ",.:;'’!?\/“”"
+    unwanted_chars = string.punctuation
     filtered_ngrams = [ngram for ngram in ngrams_list if all(token not in unwanted_chars for token in ngram)]
 
     return list(filtered_ngrams)
@@ -29,10 +27,12 @@ def process_files(files, n, num_common):
     all_ngrams = []
 
     for file in files:
-        text = file.read().decode("utf-8")
-        file_ngrams = extract_ngrams(text, n)
-        all_ngrams.extend(file_ngrams)
-
+        try:
+            text = file.read().decode("utf-8")
+            file_ngrams = extract_ngrams(text, n)
+            all_ngrams.extend(file_ngrams)
+        except UnicodeDecodeError:
+            st.error('oops! Make sure you have the correct file format')
     # Count the frequency of each n-gram
     frequency_counter = Counter(all_ngrams)
 
@@ -47,7 +47,7 @@ def process_files(files, n, num_common):
 # Streamlit app
 def main():
     st.title("N-gram Frequency Analyzer")
-    st.success("Upload your text files in .txt format and get the frequencies of n-grams.")
+    st.success("Upload your text files and get the frequencies of n-grams.")
 
     # Upload files
     uploaded_files = st.file_uploader("Upload Text Files", accept_multiple_files=True)
