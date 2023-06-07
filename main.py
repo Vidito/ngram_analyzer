@@ -6,6 +6,8 @@ from nltk import ngrams
 from nltk.tokenize import word_tokenize
 import string
 
+nltk.download('punkt')
+
 nltk.data.path.append("./nltk_data")
 
 # Function to extract n-grams from a text
