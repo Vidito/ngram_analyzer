@@ -6,6 +6,9 @@ from nltk import ngrams
 from nltk.tokenize import word_tokenize
 import string
 
+st.set_page_config(
+        page_title="N-Gram Analyzer",
+)
 nltk.download('punkt')
 
 nltk.data.path.append("./nltk_data")
